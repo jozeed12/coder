@@ -1,13 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&display=swap');
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 400;
+html{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
 .wrapper {
     padding: 1rem;
 }
@@ -27,3 +21,66 @@ h1 span {
 h2 {
     margin-left: 3px;
 }
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    background-color: gray;
+    width: 5rem;
+    position: absolute;
+    right: 2rem;
+}
+
+.oculto {
+    right: -100%;
+}
+
+body {
+    margin: auto 4rem;
+}
+
+.fecha {
+    margin-bottom: 20px;
+}
+
+.fecha label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.fecha input {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+}
+
+.boton {
+    text-align: center;
+}
+
+button {
+    padding: 8px 20px;
+    text-align: center;
+    border: none;
+    background-color: aquamarine;
+    border-radius: 4px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: rgb(83, 180, 148);
+}
+
+.caja-estadia {
+    width: 30rem;
+}
+
+.textoprecio p {
+    font-weight: bold;
+}
+
+
+

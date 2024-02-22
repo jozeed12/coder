@@ -1,51 +1,100 @@
-let zapatilla1 = {
-    nombre: "Nike Air Jodan",
-    precio: 180,
-}
+let entradaAño;
+let entradaMes;
+let entradaDia;
 
-let zapatilla2 = {
-    nombre: "Nike Dunk",
-    precio: 100,
-}
+let salidaAño;
+let salidaMes;
+let salidaDia;
 
-let zapatilla3 = {
-    nombre: "Adidas Yeezy",
-    precio: 200,
-}
+document.querySelector('#fechaEntrada').addEventListener('change', function(){
+    let fechaSeleccionadaEntrada = new Date(this.value);
 
-let zapatilla4 = {
-    nombre: "Adidas Forum",
-    precio: 145,
-}
+    fechaSeleccionadaEntrada.setMinutes(fechaSeleccionadaEntrada.getMinutes() + fechaSeleccionadaEntrada.getTimezoneOffset());
+      
+    entradaAño = fechaSeleccionadaEntrada.getFullYear();
+    entradaMes = fechaSeleccionadaEntrada.getMonth() + 1; // Se suma 1 ya que los meses van de 0 a 11
+    entradaDia = fechaSeleccionadaEntrada.getDate();
+    
+    calcularPrecioEstadia();
+});
 
-let continuar = true;
+document.querySelector('#fechaSalida').addEventListener('change', function(){
+    let fechaSeleccionadaSalida = new Date(this.value);
 
-while(continuar){
+    fechaSeleccionadaSalida.setMinutes(fechaSeleccionadaSalida.getMinutes() + fechaSeleccionadaSalida.getTimezoneOffset());
+      
+    salidaAño = fechaSeleccionadaSalida.getFullYear();
+    salidaMes = fechaSeleccionadaSalida.getMonth() + 1; // Se suma 1 ya que los meses van de 0 a 11
+    salidaDia = fechaSeleccionadaSalida.getDate();
+    
+    calcularPrecioEstadia();
+});
 
-    let zapatilla = prompt("Que zapatilla desea comprar? (Ingrese el número): \n 1.Nike Air Jodan $180usd \n 2.Nike Dunk $100usd \n 3.Adidas Yeezy $200usd \n 4.Adidas Forum $145usd \n 0.Salir");
+const precioDias = [
+    {dia:"Domingo", precio: 3000},
+    {dia:"Lunes", precio: 2000},
+    {dia:"Martes", precio: 2000},
+    {dia:"Miércoles", precio: 2000},
+    {dia:"Jueves", precio: 3000},
+    {dia:"Viernes", precio: 4000},
+    {dia:"Sábado", precio: 5000},
+];
 
-    switch(zapatilla){
-        case "1":
-            alert(`${zapatilla1.nombre} precio final en ARS: ${precioArs(zapatilla1.precio)}`);
-            continuar = false;
-            break;
-        case "2":
-            alert(`${zapatilla2.nombre} precio final en ARS: ${precioArs(zapatilla2.precio)}`);
-            continuar = false;
-            break;
-        case "3":
-            alert(`${zapatilla3.nombre} precio final en ARS: ${precioArs(zapatilla3.precio)}`);
-            continuar = false;
-            break;
-        case "4":
-            alert(`${zapatilla4.nombre} precio final en ARS: ${precioArs(zapatilla4.precio)}`);
-            continuar = false;
-            break;
-        default:
-            alert("Dato no valido, introduce nuevamente")
+function calcularPrecioEstadia() {
+    if (entradaAño && entradaMes && entradaDia && salidaAño && salidaMes && salidaDia) {
+        const fechaIngreso = new Date(parseInt(entradaAño), parseInt(entradaMes) - 1, parseInt(entradaDia));
+        const fechaEgreso = new Date(parseInt(salidaAño), parseInt(salidaMes) - 1, parseInt(salidaDia));
+
+        const diasSemana = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+        const diaInicioSemana = fechaIngreso.getDay();
+        
+
+        const inicioDia = diasSemana[diaInicioSemana];
+
+        function estadia(ingreso, egreso) {
+            // No olvides almacenar el valor de getTime()
+            const tiempoIngreso = ingreso.getTime();
+            const tiempoEgreso = egreso.getTime();
+
+            const milisegundosDias = 86400000;
+
+            let dias = (tiempoEgreso - tiempoIngreso) / milisegundosDias;
+            return dias;
+        }
+
+        const cantidadDias = estadia(fechaIngreso, fechaEgreso);
+
+        const indiceInicio = precioDias.findIndex(el => el.dia === inicioDia);
+
+        let sumaTotal = 0;
+
+        for (let i = 0; i < cantidadDias; i++) {
+            const indiceActual = (indiceInicio + i) % precioDias.length;
+            sumaTotal = sumaTotal + precioDias[indiceActual].precio;
+        }
+
+        console.log(entradaAño)
+        console.log(entradaMes)
+        console.log(entradaDia)
+
+        console.log(salidaAño)
+        console.log(salidaMes)
+        console.log(salidaDia)
+
+        const enviar = document.querySelector('#mostrar-resultado');
+        enviar.addEventListener('click', mostrarResultado); // No agregues paréntesis aquí
+
+        function mostrarResultado() {
+            alert(`Hizo una reserva para el día: ${entradaDia}/${entradaMes}/${entradaAño} hasta el día ${salidaDia}/${salidaMes}/${salidaAño} y el precio total para ${cantidadDias} días es de: $${sumaTotal}`);
+        }
     }
-}    
-
-function precioArs(precio) {
-    return 1200 * precio;
 }
+
+
+
+
+
+
+
+
+
